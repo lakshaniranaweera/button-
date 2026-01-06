@@ -57,7 +57,10 @@
 
         /* Button container */
         .button-wrapper {
-            position: relative;
+            position: absolute;
+            bottom: 390px;
+            left: 50%;
+            transform: translateX(-50%);
             cursor: pointer;
         }
 
@@ -84,23 +87,23 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #333;
-            border-radius: 8px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 24px;
             font-weight: bold;
-            color: #333;
+            color: #772683;
             transition: all 0.3s ease;
             z-index: 100;
         }
-
+/* 
         .fullscreen-btn:hover {
             background: rgba(255, 255, 255, 1);
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
+        } */
 
 
 
@@ -125,7 +128,7 @@
 <body>
     <div class="container" id="container">
         <!-- Fullscreen Button -->
-        <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">●</button>
 
         <!-- Main Button -->
         <div class="button-wrapper" id="mainButton" onclick="handleButtonClick()">
@@ -209,15 +212,7 @@
         document.addEventListener('MSFullscreenChange', updateFullscreenButton);
 
         function updateFullscreenButton() {
-            const btn = document.querySelector('.fullscreen-btn');
-            if (document.fullscreenElement || 
-                document.webkitFullscreenElement || 
-                document.mozFullScreenElement || 
-                document.msFullscreenElement) {
-                btn.textContent = '⛶ Exit Fullscreen';
-            } else {
-                btn.textContent = '⛶ Fullscreen';
-            }
+            // Keep dot icon always
         }
     </script>
 </body>
