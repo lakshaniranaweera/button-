@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop-up Button Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .container {
+            width: 1340px;
+            height: 800px;
+            position: relative;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Fullscreen styles */
+        .container:-webkit-full-screen {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .container:-moz-full-screen {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .container:-ms-fullscreen {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .container:fullscreen {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Button container */
+        .button-wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Hover effect */
+        .button-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        /* Button image */
+        .button-image {
+            width: 600px;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            transition: filter 0.3s ease;
+        }
+
+        .button-wrapper:hover .button-image {
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
+        }
+
+        /* Fullscreen button */
+        .fullscreen-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+
+
+        /* Click effect */
+        @keyframes clickEffect {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.8);
+            }
+            100% {
+                transform: scale(1.2);
+            }
+        }
+
+        .button-wrapper.clicked {
+            animation: clickEffect 0.6s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <!-- Fullscreen Button -->
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+
+        <!-- Main Button -->
+        <div class="button-wrapper" id="mainButton" onclick="handleButtonClick()">
+            <img src="button.png" alt="Button" class="button-image">
+        </div>
+    </div>
+
+    <script>
+        // Fullscreen functionality
+        function toggleFullscreen() {
+            const container = document.getElementById('container');
+            
+            if (!document.fullscreenElement && 
+                !document.mozFullScreenElement && 
+                !document.webkitFullscreenElement && 
+                !document.msFullscreenElement) {
+                // Enter fullscreen
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                } else if (container.mozRequestFullScreen) {
+                    container.mozRequestFullScreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        }
+
+        // Button click handler with animation
+        function handleButtonClick() {
+            const button = document.getElementById('mainButton');
+            button.classList.add('clicked');
+            
+            // Remove clicked class after animation and only enter fullscreen if not already
+            setTimeout(() => {
+                button.classList.remove('clicked');
+                const container = document.getElementById('container');
+                if (!document.fullscreenElement && 
+                    !document.mozFullScreenElement && 
+                    !document.webkitFullscreenElement && 
+                    !document.msFullscreenElement) {
+                    // Only enter fullscreen if not already in fullscreen
+                    if (container.requestFullscreen) {
+                        container.requestFullscreen();
+                    } else if (container.msRequestFullscreen) {
+                        container.msRequestFullscreen();
+                    } else if (container.mozRequestFullScreen) {
+                        container.mozRequestFullScreen();
+                    } else if (container.webkitRequestFullscreen) {
+                        container.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                    }
+                }
+            }, 600);
+        }
+
+
+
+        // Keyboard shortcut for fullscreen (F key or F11)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            }
+        });
+
+        // Update fullscreen button text
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+        document.addEventListener('mozfullscreenchange', updateFullscreenButton);
+        document.addEventListener('MSFullscreenChange', updateFullscreenButton);
+
+        function updateFullscreenButton() {
+            const btn = document.querySelector('.fullscreen-btn');
+            if (document.fullscreenElement || 
+                document.webkitFullscreenElement || 
+                document.mozFullScreenElement || 
+                document.msFullscreenElement) {
+                btn.textContent = '⛶ Exit Fullscreen';
+            } else {
+                btn.textContent = '⛶ Fullscreen';
+            }
+        }
+    </script>
+</body>
+</html>
