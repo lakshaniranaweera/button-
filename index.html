@@ -66,7 +66,7 @@
 
         /* Hover effect */
         .button-wrapper:hover {
-            transform: scale(1.05);
+            /* Only shadow effect, no scale */
         }
 
         /* Button image */
@@ -107,16 +107,16 @@
 
 
 
-        /* Click effect */
+        /* Click effect - Zoom out then zoom in */
         @keyframes clickEffect {
             0% {
-                transform: scale(1);
+                transform: translateX(-50%) scale(1);
             }
             50% {
-                transform: scale(0.8);
+                transform: translateX(-50%) scale(0.7);
             }
             100% {
-                transform: scale(1.2);
+                transform: translateX(-50%) scale(1.3);
             }
         }
 
